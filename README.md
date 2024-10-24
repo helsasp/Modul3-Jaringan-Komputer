@@ -30,6 +30,38 @@
 ```
 auto eth0
 iface eth0 inet dhcp
+auto eth1
+iface eth1 inet static
+  address 10.92.1.1
+  netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+  address 10.92.2.1
+  netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+  address 10.92.3.1
+  netmask 255.255.255.0
+
+auto eth4
+iface eth4 inet static
+  address 10.92.4.1
+  netmask 255.255.255.0
+
+
+auto eth5
+iface eth5 inet static
+  address 10.92.5.1
+  netmask 255.255.255.0
+
+
+auto eth6
+iface eth6 inet static
+  address 10.92.6.1
+  netmask 255.255.255.0
+
 ```
 
 - SeverusSnape:
