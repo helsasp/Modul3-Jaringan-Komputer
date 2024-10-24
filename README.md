@@ -353,7 +353,8 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+  ![Screenshot 2024-10-24 120226](https://github.com/user-attachments/assets/ac3648e1-b800-417a-a887-bb102506e661)
+
 
 - Configuration
 
@@ -379,7 +380,18 @@ iface eth0 inet dhcp
 
 - Configuration
 
-  `Put your configuration in here`
+ ![Screenshot 2024-10-24 121356](https://github.com/user-attachments/assets/0c3a7cdf-c477-48ee-9eee-aa38defd97be)
+ ![Screenshot 2024-10-24 121438](https://github.com/user-attachments/assets/9f05777b-4fc5-4f51-b2cc-692ac07e781a)
+ ![Screenshot 2024-10-24 121615](https://github.com/user-attachments/assets/7d26c645-6319-45a7-862e-ac15221b8649)
+ ![Screenshot 2024-10-24 121645](https://github.com/user-attachments/assets/f06d0480-e6cc-4366-a802-0f32cb6480dd)
+ ![Screenshot 2024-10-24 121707](https://github.com/user-attachments/assets/52fca00b-b88a-4ef5-9550-d72257ad2704)
+ ![Screenshot 2024-10-24 121752](https://github.com/user-attachments/assets/0f1a8455-6b57-49cd-816a-fde45a7083d4)
+
+
+
+
+
+
 
 - Explanation
 
@@ -410,6 +422,7 @@ iface eth0 inet dhcp
 
 <br>
 
+
 ## Soal 9
 
 > Tidak semua IP dapat akses asrama Gryffindor melalui IP Load balancer Voldemort. Untuk itu, berikan akses pada load balancer Voldemort. Autentikasi akan memerlukan username: “jarkom” dan password: “modul3”. Simpan file autentikasi pada  /etc/nginx/secretchamber 
@@ -420,7 +433,10 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+![image](https://github.com/user-attachments/assets/297e23e1-cf75-4a13-90d5-0d8089b101bc)
+![image](https://github.com/user-attachments/assets/a786a8fc-f9e1-4d9d-bcbe-a90f3952a8b4)
+
+
 
 - Configuration
 
@@ -442,7 +458,7 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+
 
 - Configuration
 
@@ -465,7 +481,8 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+![image](https://github.com/user-attachments/assets/b4512dad-ec02-42e3-8f0c-35c2d71663ee)
+
 
 - Configuration
 
