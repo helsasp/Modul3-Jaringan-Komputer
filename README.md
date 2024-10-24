@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/1zoHyFGp)
 | Name           | NRP        | Kelas     |
 | ---            | ---        | ----------|
-| xxxxxxx | xxxxxx | Jaringan Komputer (x) |
+| Helsa Sriprameswari Putri| 5025221154 | Jaringan Komputer (C) |
 | xxxxxxx | xxxxxx | Jaringan Komputer (x) |
 
 ## Put your topology config image here!
@@ -28,97 +28,163 @@
 - Dumbledore:
 
   ```
-    Put your configuration here
+   auto eth0
+iface eth0 inet dhcp
+
   ```
 
 - SeverusSnape:
 
   ```
-    Put your configuration here
+    auto eth0
+iface eth0 inet static
+  address 10.92.3.2
+  netmask 255.255.255.0
+  gateway 10.92.3.1
+
   ```
 
 - McGonagall:
 
   ```
-    Put your configuration here
+    auto eth0
+iface eth0 inet static
+  address 10.92.3.3
+  netmask 255.255.255.0
+  gateway 10.92.3.1
+
   ```
 
 - Hagrid:
 
   ```
-    Put your configuration here
+   auto eth0
+iface eth0 inet static
+  address 10.92.4.2
+  netmask 255.255.255.0
+  gateway 10.92.4.1
+
   ```
 
 - Voldemort:
 
   ```
-    Put your configuration here
+  auto eth0
+iface eth0 inet static
+  address 10.92.4.3
+  netmask 255.255.255.0
+  gateway 10.92.4.1
+
   ```
 
 - Dementor:
 
   ```
-    Put your configuration here
+    auto eth0
+iface eth0 inet static
+  address 10.92.4.4
+  netmask 255.255.255.0
+  gateway 10.92.4.1
+
   ```
 
 - HarryPotter:
 
   ```
-    Put your configuration here
+   auto eth0
+iface eth0 inet static
+  address 10.92.1.2
+  netmask 255.255.255.0
+  gateway 10.92.1.1
+
   ```
 
 - RonWeasley:
 
   ```
-    Put your configuration here
+    auto eth0
+iface eth0 inet static
+  address 10.92.1.3
+  netmask 255.255.255.0
+  gateway 10.92.1.1
+
+
   ```
 
 - HermioneGranger:
 
   ```
-    Put your configuration here
+    auto eth0
+iface eth0 inet static
+  address 10.92.1.4
+  netmask 255.255.255.0
+  gateway 10.92.1.1
+
   ```
 
 - LunaLovegood:
 
   ```
-    Put your configuration here
+   auto eth0
+iface eth0 inet static
+  address 10.92.6.4
+  netmask 255.255.255.0
+  gateway 10.92.6.1
+
   ```
 
 - FiliusFlitwick:
 
   ```
-    Put your configuration here
+   auto eth0
+iface eth0 inet static
+  address 10.92.6.3
+  netmask 255.255.255.0
+  gateway 10.92.6.1
+
   ```
 
 - ChoChang:
 
   ```
-    Put your configuration here
+    auto eth0
+iface eth0 inet static
+  address 10.92.6.2
+  netmask 255.255.255.0
+  gateway 10.92.6.1
+
   ```
 
 - DracoMalfoy:
 
   ```
-    Put your configuration here
+   auto eth0
+iface eth0 inet dhcp
+
   ```
 
 - AstoriaGreengrass:
 
   ```
-    Put your configuration here
+    auto eth0
+iface eth0 inet dhcp
+
   ```
 
 - SusanBones:
 
   ```
-    Put your configuration here
+   auto eth0
+iface eth0 inet dhcp
+
   ```
 
 - HannahAbbott:
 
   ```
-    Put your configuration here
+ auto eth0
+iface eth0 inet dhcp
+
   ```
 
 ## Soal 1
