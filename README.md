@@ -67,6 +67,11 @@ iface eth6 inet static
 - SeverusSnape:
 
   ```
+auto eth0
+iface eth0 inet static
+  address 10.92.3.2
+  netmask 255.255.255.0
+  gateway 10.92.3.1
 
   ```
 
