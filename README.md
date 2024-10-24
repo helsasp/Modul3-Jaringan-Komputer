@@ -27,9 +27,8 @@
 
 - Dumbledore:
 
-  ```
-  auto eth0 <br>
-iface eth0 inet dhcp <br>
+```auto eth0
+iface eth0 inet dhcp
 ```
 
 - SeverusSnape:
