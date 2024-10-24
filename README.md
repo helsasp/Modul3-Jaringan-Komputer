@@ -529,7 +529,8 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+ ![image](https://github.com/user-attachments/assets/137e411b-f064-498c-aa57-fcc16317f8a6)
+
 
 - Configuration
 
