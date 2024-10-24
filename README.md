@@ -463,7 +463,7 @@ unzip apache-jmeter-5.6.3.zip
 
 echo '
 upstream backend  {
-least_conn;
+least_conn; # ganti algoritma
 server 10.92.1.2;
 server 10.92.1.3;
 server 10.92.1.4;
@@ -511,7 +511,7 @@ curl -X POST -F "file=@./load1.zip" https://webhook.site/7cadb9e9-247c-4692-ab6a
 
 - Explanation
 
-Pada Voldemort, konfigurasi Nginx menggunakan algoritma load balancing least_conn yang mendistribusikan permintaan ke tiga server backend (10.92.1.2, 10.92.1.3, dan 10.92.1.4) berdasarkan koneksi yang paling sedikit. File konfigurasi Nginx disimpan di /etc/nginx/sites-available/load_balancer dan diaktifkan dengan membuat symbolic link. Nginx kemudian di-restart untuk menerapkan perubahan. <br>
+Pada Voldemort, konfigurasi Nginx menggunakan algoritma load balancing least_conn, round roubin, ip hash yang mendistribusikan permintaan ke tiga server backend (10.92.1.2, 10.92.1.3, dan 10.92.1.4) berdasarkan koneksi yang paling sedikit. File konfigurasi Nginx disimpan di /etc/nginx/sites-available/load_balancer dan diaktifkan dengan membuat symbolic link. Nginx kemudian di-restart untuk menerapkan perubahan. <br>
 
 JMeter digunakan untuk menjalankan pengujian otomatis login, akses homepage, dan logout dengan 300 thread dan ramp-up 3 detik. Tes dilakukan tiga kali untuk setiap algoritma load balancing, dan hasilnya disimpan dalam file CSV, kemudian dikompres dan dikirim menggunakan curl.<br>
 
@@ -535,11 +535,48 @@ JMeter digunakan untuk menjalankan pengujian otomatis login, akses homepage, dan
 
 - Configuration
 
-  `Put your configuration in here`
+Voldemort :
+```
+service nginx start
 
+echo '
+upstream backend {
+    ip_hash;
+    server 10.92.1.2;
+    server 10.92.1.3;
+    server 10.92.1.4;
+}
+
+server {
+    listen 80;
+    server_name gryffindor.hogwarts.c05.com;
+
+    location / {
+        proxy_pass http://backend;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        auth_basic "Restricted Access"; 
+        auth_basic_user_file /etc/nginx/secretchamber/.htpasswd;
+    }
+
+    error_log /var/log/nginx/lb_error.log;
+    access_log /var/log/nginx/lb_access.log;
+}
+' > /etc/nginx/sites-available/load_balancer
+
+service nginx restart
+
+echo '127.0.0.1 gryffindor.hogwarts.c05.com' >> /etc/hosts
+```
+Testing :
+
+```
+lynx gryffindor.hogwarts.c05.com
+```
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi ini membatasi akses ke server Gryffindor melalui load balancer Voldemort dengan menambahkan autentikasi berbasis username dan password. Pertama, Nginx dikonfigurasi untuk menggunakan load balancing dengan algoritma ip_hash yang mengarahkan lalu lintas ke tiga server backend (10.92.1.2, 10.92.1.3, 10.92.1.4). Pada bagian location, autentikasi dasar (auth_basic) diaktifkan, memerlukan username "jarkom" dan password "modul3", dengan data autentikasi disimpan di file /etc/nginx/secretchamber/.htpasswd. Setelah konfigurasi selesai, layanan Nginx di-restart dan hostname gryffindor.hogwarts.c05.com ditambahkan ke file /etc/hosts untuk memastikan pengujian lokal dapat dilakukan menggunakan browser teks lynx.
 
 <br>
 
