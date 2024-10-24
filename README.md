@@ -593,6 +593,8 @@ Konfigurasi ini membatasi akses ke server Gryffindor melalui load balancer Volde
 
 
 - Configuration
+
+Voldemort 
 ```
  echo '
 upstream backend  {
@@ -660,11 +662,53 @@ Pada konfigurasi ini, server menggunakan load balancer Nginx dengan algoritma ro
 
 - Configuration
 
-  `Put your configuration in here`
+Voldemort
 
+```
+service nginx start
+
+echo '
+upstream backend {
+    server 10.92.1.2;
+    server 10.92.1.3;
+    server 10.92.1.4;  
+}
+
+server {
+    listen 80;
+    server_name gryffindor.hogwarts.c05.com;
+
+    location / {
+        proxy_pass http://backend;
+
+        # Tambahkan autentikasi jika diperlukan
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/secretchamber/.htpasswd;
+    }
+
+    location /informatika {
+        proxy_pass https://www.its.ac.id/informatika/id/beranda/;
+        proxy_set_header Host www.its.ac.id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    error_log /var/log/nginx/lb_error.log;
+    access_log /var/log/nginx/lb_access.log;
+}
+' > /etc/nginx/sites-available/load_balancer
+
+service nginx restart
+```
+Testing :
+
+```
+lynx gryffindor.hogwarts.c05.com/informatika
+```
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi di atas menjelaskan bahwa server Voldemort, bagian dari sistem load balancer untuk domain gryffindor.hogwarts.c05.com, akan menangani dua jenis request. Pertama, semua permintaan umum akan diarahkan ke backend server yang diatur dalam upstream backend. Kedua, jika URL berisi /informatika di akhir, request tersebut akan diproxy ke halaman ITS pada URL https://www.its.ac.id/informatika/id/beranda/. Selain itu, beberapa header penting seperti Host, X-Real-IP, X-Forwarded-For, dan X-Forwarded-Proto akan diteruskan untuk memastikan informasi pengguna tetap terjaga. Error dan akses akan dicatat pada log di Nginx.
 
 <br>
 
@@ -682,14 +726,57 @@ Pada konfigurasi ini, server menggunakan load balancer Nginx dengan algoritma ro
 ![image](https://github.com/user-attachments/assets/2e46e3e1-7a91-4d47-a915-d1a35a128410)
 
 
-
 - Configuration
 
-  `Put your configuration in here`
+```
+service nginx start
+
+echo '
+upstream backend {
+    server 10.92.1.2;
+    server 10.92.1.3;
+    server 10.92.1.4;  
+}
+
+server {
+    listen 80;
+    server_name gryffindor.hogwarts.c05.com;
+
+    location / {
+        proxy_pass http://backend;
+
+        # Autentikasi untuk mengakses asrama Gryffindor
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/secretchamber/.htpasswd;
+
+        # Pembatasan akses berdasarkan IP
+        allow 10.92.2.64;
+        allow 10.92.2.100;
+        allow 10.92.5.50;
+        allow 10.92.5.155;
+        deny all;
+    }
+
+    location /informatika {
+        proxy_pass https://www.its.ac.id/informatika/id/beranda/;
+        proxy_set_header Host www.its.ac.id;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    error_log /var/log/nginx/lb_error.log;
+    access_log /var/log/nginx/lb_access.log;
+}
+' > /etc/nginx/sites-available/load_balancer
+
+service nginx restart
+
+```
 
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi di atas menambahkan autentikasi dan pembatasan akses berbasis IP untuk load balancer Voldemort, yang melayani asrama Gryffindor di domain gryffindor.hogwarts.c05.com. Autentikasi menggunakan file .htpasswd untuk membatasi akses hanya kepada pengguna yang berwenang. Selain itu, hanya klien dengan IP tertentu yang diizinkan mengakses load balancer, yaitu: 10.92.2.64, 10.92.2.100, 10.92.5.50, dan 10.92.5.155, sementara semua IP lainnya ditolak dengan menggunakan perintah deny all.
 
 <br>
 
@@ -708,11 +795,37 @@ Pada konfigurasi ini, server menggunakan load balancer Nginx dengan algoritma ro
 
 - Configuration
 
-  `Put your configuration in here`
+Hagrid
+```
+apt-get update
+apt-get install mariadb-server -y
+service mysql start
+mysql
 
+CREATE USER 'kelompokc05'@'10.92.6.4' IDENTIFIED BY 'passwordc05';
+CREATE USER 'kelompokc05'@'10.92.6.3' IDENTIFIED BY 'passwordc05';
+CREATE USER 'kelompokc05'@'10.92.6.2' IDENTIFIED BY 'passwordc05';
+CREATE DATABASE dbkelompokc05;
+GRANT ALL PRIVILEGES ON dbkelompokc05.* TO 'kelompokc05'@'10.92.6.4';
+GRANT ALL PRIVILEGES ON dbkelompokc05.* TO 'kelompokc05'@'10.92.6.3';
+GRANT ALL PRIVILEGES ON dbkelompokc05.* TO 'kelompokc05'@'10.92.6.2';
+
+FLUSH PRIVILEGES;
+
+nano /etc/mysql/my.cnf
+[mysqld]
+skip-networking=0
+skip-bind-addre
+```
+
+Luna
+```
+apt-get install mariadb-client -y
+mariadb --host=10.92.4.2 --port=3306 --user=kelompokc05 --password
+```
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi ini bertujuan untuk mengatur akses database yang dikelola oleh server Hagrid bagi pengguna tertentu dalam perlombaan. Pertama, MariaDB diinstal dan dijalankan di Hagrid. Selanjutnya, tiga pengguna diizinkan untuk mengakses database dengan username kelompokc05 dan password passwordc05, yang masing-masing berasal dari alamat IP 10.92.6.2, 10.92.6.3, dan 10.92.6.4. Sebuah database bernama dbkelompokc05 juga dibuat, dan hak akses penuh diberikan kepada ketiga pengguna tersebut untuk database ini. Selain itu, konfigurasi diatur untuk memastikan jaringan dapat diakses dengan mengedit file konfigurasi MySQL agar mengizinkan koneksi jaringan. Di sisi klien (Luna), MariaDB client diinstal untuk menghubungkan ke server database menggunakan kredensial yang telah ditentukan.
 
 <br>
 
