@@ -593,12 +593,54 @@ Konfigurasi ini membatasi akses ke server Gryffindor melalui load balancer Volde
 
 
 - Configuration
+```
+ echo '
+upstream backend  {
+server 10.92.1.2;
+server 10.92.1.3;
+server 10.92.1.4;
+}
 
-  `Put your configuration in here`
+server {
+listen 80;
+server_name gryffindor.hogwarts.c05.com;
+
+    	location / {
+            	proxy_pass http://backend;
+            	proxy_set_header	X-Real-IP $remote_addr;
+            	proxy_set_header	X-Forwarded-For $proxy_add_x_forwarded_for;
+            	proxy_set_header	Host $http_host;
+		auth_basic "Restricted Access"; 
+auth_basic_user_file /etc/nginx/secretchamber/.htpasswd;
+    	}
+
+
+error_log /var/log/nginx/lb_error.log;
+access_log /var/log/nginx/lb_access.log;
+
+}
+' > /etc/nginx/sites-available/load_balancer
+```
+Jmeter 
+```
+./jmeter -n -t 1workers.jmx -l 1workers.csv -e -o 1workers_output
+zip -r  1workers.zip 1workers_output/
+curl -X POST -F "file=@./1workers.zip" https://webhook.site/7cadb9e9-247c-4692-ab6a-2bc849c701a7
+
+./jmeter -n -t 2workers.jmx -l 2workers.csv -e -o 2workers_output
+zip -r  2workers.zip 2workers_output/
+curl -X POST -F "file=@./2workers.zip" https://webhook.site/7cadb9e9-247c-4692-ab6a-2bc849c701a7
+
+./jmeter -n -t 3workers.jmx -l 3workers.csv -e -o 3workers_output
+zip -r  3workers.zip 3workers_output/
+curl -X POST -F "file=@./3workers.zip" https://webhook.site/7cadb9e9-247c-4692-ab6a-2bc849c701a7
+```
+
 
 - Explanation
 
-  `Put your explanation in here`
+Pada konfigurasi ini, server menggunakan load balancer Nginx dengan algoritma round-robin untuk mendistribusikan beban ke tiga server backend (10.92.1.2, 10.92.1.3, dan 10.92.1.4). Load balancer mendengarkan pada port 80 dengan nama domain gryffindor.hogwarts.c05.com. Otentikasi dasar (basic authentication) diterapkan untuk mengamankan akses menggunakan file .htpasswd yang tersimpan di /etc/nginx/secretchamber/. Log akses dan error masing-masing dicatat dalam file /var/log/nginx/lb_access.log dan /var/log/nginx/lb_error.log. Pengujian dilakukan dengan JMeter menggunakan skenario "login-home-logout" dengan 300 thread, 3 detik ramp up, dan variasi jumlah worker (1, 2, dan 3). Hasil pengujian disimpan dalam file output yang dikompresi dan dikirimkan melalui curl ke webhook yang ditentukan.
+
 
 <br>
 
