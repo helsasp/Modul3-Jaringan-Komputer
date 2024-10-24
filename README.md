@@ -430,11 +430,12 @@ service nginx restart
 
 Testing :
 
+```
 ab -n 1000 -c 100 http://localhost/index.php
-
+```
 - Explanation
 
-  `Put your explanation in here`
+Agar Voldemort dapat mendistribusikan pekerjaan secara optimal, diterapkan algoritma round-robin, yang secara bergiliran mengarahkan permintaan ke masing-masing worker. Pengujian awal dilakukan pada halaman index.php menggunakan Apache Benchmark dengan 1.000 request dan 100 request per detik. Pengujian dilakukan sebanyak tiga kali untuk menghitung rata-rata dan standar deviasi dari waktu per request. Nginx digunakan sebagai load balancer, dengan konfigurasi upstream untuk mendistribusikan permintaan ke tiga server worker PHP (IP: 10.92.1.2, 10.92.1.3, dan 10.92.1.4).
 
 <br>
 
@@ -453,11 +454,66 @@ ab -n 1000 -c 100 http://localhost/index.php
 
 - Configuration
 
-  `Put your configuration in here`
+Voldemort 
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get install openjdk-11-jre
+wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
+unzip apache-jmeter-5.6.3.zip
+
+echo '
+upstream backend  {
+least_conn;
+server 10.92.1.2;
+server 10.92.1.3;
+server 10.92.1.4;
+}
+
+server {
+listen 80;
+server_name gryffindor.hogwarts.c05.com;
+
+    	location / {
+            	proxy_pass http://backend;
+            	proxy_set_header	X-Real-IP $remote_addr;
+            	proxy_set_header	X-Forwarded-For $proxy_add_x_forwarded_for;
+            	proxy_set_header	Host $http_host;
+    	}
+
+error_log /var/log/nginx/lb_error.log;
+access_log /var/log/nginx/lb_access.log;
+
+}
+' > /etc/nginx/sites-available/load_balancer
+
+
+unlink /etc/nginx/sites-enabled/default
+
+ln -s /etc/nginx/sites-available/load_balancer /etc/nginx/sites-enabled/
+
+service nginx restart
+```
+
+Jmeter
+
+```
+./jmeter -n -t load -l <load.csv> -e -o <load_output>
+
+apt-get installl zip
+zip -r  load.zip load_output/
+curl -X POST -F "file=@./load.zip" https://webhook.site/7cadb9e9-247c-4692-ab6a-2bc849c701a7
+
+./jmeter -n -t load1.jmx -l load1.csv -e -o load1_output
+zip -r  load1.zip load1_output/
+curl -X POST -F "file=@./load1.zip" https://webhook.site/7cadb9e9-247c-4692-ab6a-2bc849c701a7
+```
+
 
 - Explanation
 
-  `Put your explanation in here`
+Pada Voldemort, konfigurasi Nginx menggunakan algoritma load balancing least_conn yang mendistribusikan permintaan ke tiga server backend (10.92.1.2, 10.92.1.3, dan 10.92.1.4) berdasarkan koneksi yang paling sedikit. File konfigurasi Nginx disimpan di /etc/nginx/sites-available/load_balancer dan diaktifkan dengan membuat symbolic link. Nginx kemudian di-restart untuk menerapkan perubahan. <br>
+
+JMeter digunakan untuk menjalankan pengujian otomatis login, akses homepage, dan logout dengan 300 thread dan ramp-up 3 detik. Tes dilakukan tiga kali untuk setiap algoritma load balancing, dan hasilnya disimpan dalam file CSV, kemudian dikompres dan dikirim menggunakan curl.<br>
 
 <br>
 
