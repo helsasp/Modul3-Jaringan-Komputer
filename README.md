@@ -222,7 +222,7 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `![image](https://github.com/user-attachments/assets/694183b1-a115-47fe-879d-0ccc5262c6a7)`
+  ![image](https://github.com/user-attachments/assets/694183b1-a115-47fe-879d-0ccc5262c6a7)
 
 - Configuration
 
@@ -376,10 +376,6 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
-
-- Configuration
-
  ![Screenshot 2024-10-24 121356](https://github.com/user-attachments/assets/0c3a7cdf-c477-48ee-9eee-aa38defd97be)
  ![Screenshot 2024-10-24 121438](https://github.com/user-attachments/assets/9f05777b-4fc5-4f51-b2cc-692ac07e781a)
  ![Screenshot 2024-10-24 121615](https://github.com/user-attachments/assets/7d26c645-6319-45a7-862e-ac15221b8649)
@@ -388,10 +384,53 @@ iface eth0 inet dhcp
  ![Screenshot 2024-10-24 121752](https://github.com/user-attachments/assets/0f1a8455-6b57-49cd-816a-fde45a7083d4)
 
 
+- Configuration
+  
+Voldemort :
+
+```
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+apt-get update
+apt-get install apache2-utils -y
+apt-get install nginx -y
+apt-get install lynx -y
+service nginx start
+
+echo '
+upstream backend  {
+server 10.92.1.2;
+server 10.92.1.3;
+server 10.92.1.4;
+}
+
+server {
+listen 80;
+server_name gryffindor.hogwarts.c05.com;
+
+    	location / {
+            	proxy_pass http://backend;
+            	proxy_set_header	X-Real-IP $remote_addr;
+            	proxy_set_header	X-Forwarded-For $proxy_add_x_forwarded_for;
+            	proxy_set_header	Host $http_host;
+    	}
+
+error_log /var/log/nginx/lb_error.log;
+access_log /var/log/nginx/lb_access.log;
+
+}
+' > /etc/nginx/sites-available/load_balancer
 
 
+unlink /etc/nginx/sites-enabled/default
 
+ln -s /etc/nginx/sites-available/load_balancer /etc/nginx/sites-enabled/
 
+service nginx restart
+```
+
+Testing :
+
+ab -n 1000 -c 100 http://localhost/index.php
 
 - Explanation
 
