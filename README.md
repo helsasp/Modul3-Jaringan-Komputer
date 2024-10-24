@@ -383,6 +383,8 @@ iface eth0 inet dhcp
  ![Screenshot 2024-10-24 121645](https://github.com/user-attachments/assets/f06d0480-e6cc-4366-a802-0f32cb6480dd)
  ![Screenshot 2024-10-24 121707](https://github.com/user-attachments/assets/52fca00b-b88a-4ef5-9550-d72257ad2704)
  ![Screenshot 2024-10-24 121752](https://github.com/user-attachments/assets/0f1a8455-6b57-49cd-816a-fde45a7083d4)
+ ![image](https://github.com/user-attachments/assets/b097dfd4-65f3-4bcb-a70a-76c13fd39713)
+
 
 
 - Configuration
@@ -451,7 +453,6 @@ Agar Voldemort dapat mendistribusikan pekerjaan secara optimal, diterapkan algor
 
 - Screenshot
 
-  `Put your screenshot in here`
 
 - Configuration
 
@@ -590,6 +591,7 @@ Konfigurasi ini membatasi akses ke server Gryffindor melalui load balancer Volde
 **Answer:**
 
 - Screenshot
+![image](https://github.com/user-attachments/assets/ed32687d-ca15-4fa7-a6d7-87f69ce986ec)
 
 
 
