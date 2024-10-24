@@ -222,7 +222,7 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+  `![image](https://github.com/user-attachments/assets/694183b1-a115-47fe-879d-0ccc5262c6a7)`
 
 - Configuration
 
@@ -249,7 +249,11 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+  ![image](https://github.com/user-attachments/assets/5d7bfcc2-f0f2-4223-a9df-860a1e2e9212)
+  ![image](https://github.com/user-attachments/assets/739df414-ba71-4f12-9c93-7c6288244074)
+  ![image](https://github.com/user-attachments/assets/3fce2ca3-742a-4bb4-83f4-7a4722df2d47)
+  ![image](https://github.com/user-attachments/assets/79105791-25b4-47da-a576-3f623c671b19)
+
 
 - Configuration
 
@@ -277,8 +281,9 @@ iface eth0 inet dhcp
 **Answer:**
 
 - Screenshot
+![image](https://github.com/user-attachments/assets/efab4077-7590-4e6f-9448-58a925ed779a)
+![image](https://github.com/user-attachments/assets/b5059cf1-5b36-4608-a79c-6055024cfc40)
 
-  `Put your screenshot in here`
 
 - Configuration
 
@@ -323,7 +328,10 @@ iface eth0 inet dhcp
 
 - Screenshot
 
-  `Put your screenshot in here`
+ ![image](https://github.com/user-attachments/assets/0532dd3d-0c15-48a7-ac86-1f5e5a1a6e8d)
+ ![image](https://github.com/user-attachments/assets/268824dd-6478-41a8-bf76-05fe39edf539)
+
+
 
 - Configuration
 
