@@ -77,99 +77,140 @@ iface eth0 inet static
 
 - McGonagall:
 
-  ```
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.3.3
+  netmask 255.255.255.0
+  gateway 10.92.3.1
 
-
-  ```
+```
 
 - Hagrid:
 
-  ```
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.4.2
+  netmask 255.255.255.0
+  gateway 10.92.4.1
 
-  ```
 
+```
 - Voldemort:
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.4.3
+  netmask 255.255.255.0
+  gateway 10.92.4.1
 
-  ```
-
-
-  ```
-
+```
 - Dementor:
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.4.4
+  netmask 255.255.255.0
+  gateway 10.92.4.1
 
-  ```
-
-
-  ```
-
+```
 - HarryPotter:
 
-  ```
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.1.2
+  netmask 255.255.255.0
+  gateway 10.92.1.1
 
 
-  ```
+```
 
 - RonWeasley:
 
-  ```
- 
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.1.3
+  netmask 255.255.255.0
+  gateway 10.92.1.1
 
 
-  ```
-
+```
 - HermioneGranger:
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.1.4
+  netmask 255.255.255.0
+  gateway 10.92.1.1
 
-  ```
- 
 
-  ```
+```
 
 - LunaLovegood:
 
-  ```
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.6.4
+  netmask 255.255.255.0
+  gateway 10.92.6.1
 
 
-  ```
+```
 
 - FiliusFlitwick:
 
-  ```
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.6.3
+  netmask 255.255.255.0
+  gateway 10.92.6.1
 
-  ```
 
+```
 - ChoChang:
+```
+auto eth0
+iface eth0 inet static
+  address 10.92.6.2
+  netmask 255.255.255.0
+  gateway 10.92.6.1
 
-  ```
 
-  ```
+```
 
 - DracoMalfoy:
+```
+auto eth0
+iface eth0 inet dhcp
 
-  ```
-
-
-  ```
+```
 
 - AstoriaGreengrass:
+```
+auto eth0
+iface eth0 inet dhcp
 
-  ```
-
-
-  ```
+```
 
 - SusanBones:
+```
+auto eth0
+iface eth0 inet dhcp
 
-  ```
-
-
-  ```
+```
 
 - HannahAbbott:
 
-  ```
- 
+ ```
+auto eth0
+iface eth0 inet dhcp
 
-  ```
+```
 
 ## Soal 1
 
