@@ -227,11 +227,104 @@ iface eth0 inet dhcp
 
 - Configuration
 
-  `Put your configuration in here`
+Mcgonagall DNS Server
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install bind9 -y
+
+nano /etc/bind/named.conf.local
+
+zone "gryffindor.hogwarts.c05.com" {
+        type master;
+        file "/etc/bind/hogwarts/gryffindor.hogwarts.c05.com";
+};
+
+zone "ravenclaw.hogwarts.c05.com" {
+        type master;
+        file "/etc/bind/hogwarts/ravenclaw.hogwarts.c05.com";
+};
+
+mkdir /etc/bind/hogwarts
+cp /etc/bind/db.local /etc/bind/hogwarts/gryffindor.hogwarts.c05.com
+nano /etc/bind/hogwarts/gryffindor.hogwarts.c05.com
+
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     gryffindor.hogwarts.c05.com. root.gryffindor.hogwarts.c05.com. (
+                        2024111301      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+;
+@               IN      NS      gryffindor.hogwarts.c05.com.
+@               IN      A       10.92.4.2 ; IP Load Balancer Voldemort
+
+
+cp /etc/bind/db.local /etc/bind/hogwarts/ravenclaw.hogwarts.c05.com
+nano /etc/bind/hogwarts/ravenclaw.hogwarts.c05.com
+
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     ravenclaw.hogwarts.c05.com. root.ravenclaw.hogwarts.c05.com. (
+                        2024111301      ; Serial
+                        604800          ; Refresh
+                        86400           ; Retry
+                        2419200         ; Expire
+                        604800 )        ; Negative Cache TTL
+;
+@               IN      NS      ravenclaw.hogwarts.c05.com.
+@               IN      A       10.92.4.3 ; IP Load Balancer Dementor
+
+
+nano /etc/bind/named.conf.options
+
+options {
+        directory "/var/cache/bind";
+
+        forwarders {
+                192.168.122.1;
+        };
+
+        dnssec-validation auto;
+        allow-query{any;};
+        auth-nxdomain no;    # conform to RFC1035
+        listen-on-v6 { any; };
+};
+
+
+service named restart
+```
+Testing Draco Malfoy :
+
+```
+edit config jadi statis
+
+auto eth0
+iface eth0 inet static
+	address 10.92.2.2
+	netmask 255.255.255.0
+	gateway 10.92.2.1
+
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install dnsutils
+
+echo nameserver 10.92.3.3 > /etc/resolv.conf
+
+host -t A gryffindor.hogwarts.c05.com
+host -t A ravenclaw.hogwarts.c05.com
+
+
+```
 
 - Explanation
-
-  `Put your explanation in here`
+Konfigurasi ini bertujuan untuk mendaftarkan subdomain untuk dua pekerja: gryffindor.hogwarts.yyy.com yang mengarah ke alamat IP load balancer Voldemort (10.92.4.2) dan ravenclaw.hogwarts.yyy.com yang mengarah ke alamat IP load balancer Dementor (10.92.4.3). Seluruh pengaturan domain dikelompokkan dalam folder bernama "hogwarts" di server DNS BIND. Dalam konfigurasi ini, setiap subdomain memiliki file data DNS yang mendefinisikan informasi seperti tipe zone, alamat IP, dan informasi terkait lainnya, serta pengaturan untuk server DNS yang memastikan permintaan dapat diproses dengan benar. Pengaturan ini memastikan bahwa trafik ke subdomain akan diarahkan ke load balancer yang sesuai, memungkinkan akses ke pekerja PHP dan Laravel yang ditunjuk.
 
 <br>
 
