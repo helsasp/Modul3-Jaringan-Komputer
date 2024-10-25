@@ -741,6 +741,50 @@ Agar Voldemort dapat mendistribusikan pekerjaan secara optimal, diterapkan algor
 
 - Screenshot
 
+1.	IP Hash
+
+Test-1
+
+ ![image](https://github.com/user-attachments/assets/7dd19b77-3f61-40eb-9338-9ba9a3bb2e39)
+
+Test-2
+
+![image](https://github.com/user-attachments/assets/ece07c2f-cfd7-42fc-8c9a-d8052b135d6e)
+
+
+Test-3
+
+ ![image](https://github.com/user-attachments/assets/a5587b16-c892-4d07-b113-d42894858219)
+
+2.	Least Conn
+   
+Test-1
+
+ ![image](https://github.com/user-attachments/assets/9ac2a588-f293-498e-a6f8-dcedc6741b5a)
+
+Test-2
+
+![image](https://github.com/user-attachments/assets/55415a98-12b5-4273-b446-b82acccc0460)
+
+Test-3
+
+![image](https://github.com/user-attachments/assets/fd594a76-c599-492f-9a9b-002a6e999109)
+
+3.	Round Robin
+   
+Test-1
+
+ ![image](https://github.com/user-attachments/assets/db454967-ea7f-47d9-b40d-238d033e40e2)
+
+Test-2
+
+ ![image](https://github.com/user-attachments/assets/d09bcc1a-b6da-4bd3-a28a-abc4ae041777)
+
+Test-3
+
+![image](https://github.com/user-attachments/assets/83eaf0e2-5573-41d5-911e-ea563091a666)
+
+
 
 - Configuration
 
