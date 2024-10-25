@@ -1338,8 +1338,16 @@ Selanjutnya, konfigurasi NGINX diatur untuk melayani aplikasi Laravel di port ya
 **Answer:**
 
 - Screenshot
+1. Tanpa Validasi
+     
+   ![image](https://github.com/user-attachments/assets/5900200f-73fa-4351-85ff-1db86d5d085d)
 
-  ![Screenshot 2024-10-25 152336](https://github.com/user-attachments/assets/5a2172c1-03a1-4744-9469-c18b758ac7d8)
+  
+   ![image](https://github.com/user-attachments/assets/4ba04057-8314-4c2d-92b1-8db155cbe4ca)
+     
+2. Dengan Validasi
+
+   ![Screenshot 2024-10-25 152336](https://github.com/user-attachments/assets/5a2172c1-03a1-4744-9469-c18b758ac7d8)
 
 
   ![Screenshot 2024-10-25 152348](https://github.com/user-attachments/assets/63d33f07-dd71-4f33-baa9-27836c1400a1)
