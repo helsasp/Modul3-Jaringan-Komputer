@@ -1443,7 +1443,7 @@ Konfigurasi ini dimulai dengan memperbarui daftar paket, lalu menginstal apache2
 
 - Configuration
 
-`ab -n 100 -c 10 -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTAuOTIuNi40OjgwMDEvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Mjk4NjQzMTQsImV4cCI6MTcyOTg2NzkxNCwibmJmIjoxNzI5ODY0MzE0LCJqdGkiOiIxRUdsTFlPMTJPVmhaMzFJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.iB_mFltIS9SwR5xwlyEJ9HDPO6YSJcwvpZp3FMTzMjE" -H "Content-Type: application/json" http://10.92.6.4:8001/auth/me`
+`ab -n 100 -c 10 -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTAuOTIuNi40OjgwMDEvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Mjk4NjQzMTQsImV4cCI6MTcyOTg2NzkxNCwibmJmIjoxNzI5ODY0MzE0LCJqdGkiOiIxRUdsTFlPMTJPVmhaMzFJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.iB_mFltIS9SwR5xwlyEJ9HDPO6YSJcwvpZp3FMTzMjE" -H "Content-Type: application/json" http://10.92.6.4:8001/api/me`
 
 `url -X GET http://10.92.6.4:8001/api/me \ -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTAuOTIuNi40OjgwMDEvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Mjk4NjQzMTQsImV4cCI6MTcyOTg2NzkxNCwibmJmIjoxNzI5ODY0MzE0LCJqdGkiOiIxRUdsTFlPMTJPVmhaMzFJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.iB_mFltIS9SwR5xwlyEJ9HDPO6YSJcwvpZp3FMTzMjE" \ -H "Content-Type: application/json"
 `
