@@ -16,7 +16,7 @@
 ## Put your testing report here! 
 > The report is sent in PDF format, uploaded to Drive, and set to public view.
 
-`put the link here`
+Konfigurasi ini dimulai dengan memperbarui daftar paket, lalu menginstal apache2-utils (untuk alat benchmarking ab), NGINX sebagai server web, dan Lynx sebagai browser berbasis teks. Setelah itu, perintah ab digunakan untuk mengirimkan 100 permintaan POST bersamaan (10 permintaan sekaligus) ke endpoint /api/auth/login dengan payload dari file register.json untuk menguji performa server. Selanjutnya, curl digunakan untuk mengirim permintaan POST ke endpoint yang sama untuk mendapatkan token otentikasi JWT. Token ini diperlukan untuk akses lanjutan dan ditampilkan sebagai hasil dari permintaan login.
 
 ## Soal 0
 
