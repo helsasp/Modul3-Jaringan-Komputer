@@ -1438,7 +1438,10 @@ Konfigurasi ini dimulai dengan memperbarui daftar paket, lalu menginstal apache2
 
 - Screenshot
 
-  ![image](https://github.com/user-attachments/assets/729c723f-8b53-45cc-b0a6-3db9fde7be41)
+  ![image](https://github.com/user-attachments/assets/d2a66d22-02cb-4f24-9dfd-e17793700915)
+
+  ![image](https://github.com/user-attachments/assets/f7d07398-42a3-49b8-bf04-2491a2dfe6cf)
+
 
 
 - Configuration
