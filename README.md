@@ -1350,7 +1350,7 @@ Selanjutnya, konfigurasi NGINX diatur untuk melayani aplikasi Laravel di port ya
    ![Screenshot 2024-10-25 152336](https://github.com/user-attachments/assets/5a2172c1-03a1-4744-9469-c18b758ac7d8)
 
 
-  ![Screenshot 2024-10-25 152348](https://github.com/user-attachments/assets/63d33f07-dd71-4f33-baa9-27836c1400a1)
+   ![Screenshot 2024-10-25 152348](https://github.com/user-attachments/assets/63d33f07-dd71-4f33-baa9-27836c1400a1)
 
   
 
@@ -1390,6 +1390,12 @@ Konfigurasi ini menginstal Apache Utilities (untuk alat ab), NGINX sebagai serve
 
 - Screenshot
 
+1. Tanpa Validasi
+   
+   ![image](https://github.com/user-attachments/assets/df0567bb-6ce1-4a7b-8400-59e3605a809b)
+
+2. Dengan Validasi
+   
   ![Screenshot 2024-10-25 153552](https://github.com/user-attachments/assets/44510b32-decf-42ab-8980-f38466a8dd99)
 
   ![Screenshot 2024-10-25 153559](https://github.com/user-attachments/assets/a7a73dd4-e94b-4e47-87c7-1e13edbad683)
