@@ -1174,15 +1174,158 @@ Konfigurasi ini bertujuan untuk mengatur akses database yang dikelola oleh serve
 
 - Screenshot
 
-  `Put your screenshot in here`
+  ![image](https://github.com/user-attachments/assets/2d897b27-0552-413e-b482-781969d52836)
+
 
 - Configuration
 
-  `Put your configuration in here`
+  Luna, Filius, ChaChong
+
+  ```
+  	apt-get update
+	apt-get install -y software-properties-common -y
+	add-apt-repository ppa:ondrej/php -y
+	apt-get update
+	apt-get install lynx -y
+	
+	# Lalu
+	apt-get install php8.0-mbstring php8.0-xml php8.0-cli php8.0-common php8.0-intl php8.0-opcache php8.0-readline php8.0-mysql php8.0-fpm php8.0-curl unzip wget -y
+	
+	apt-get install nginx -y
+	
+	# Install Composer
+	wget https://getcomposer.org/download/2.0.13/composer.phar
+	chmod +x composer.phar
+	mv composer.phar /usr/local/bin/composer
+	
+	# Install Git
+	apt-get install git -y
+	
+	# Clone Laravel project from GitHub
+	cd /var/www && git clone https://github.com/lodaogos/laravel-jarkom-modul-3.git
+	
+	# Navigate to the project directory and install dependencies
+	cd /var/www/laravel-jarkom-modul-3 && composer update
+	
+	# Setup environment variables
+	cd /var/www/laravel-jarkom-modul-3 && cp .env.example .env
+	
+	echo '
+	APP_NAME=Laravel
+	APP_ENV=local
+	APP_KEY=
+	APP_DEBUG=true
+	APP_URL=http://localhost
+	
+	LOG_CHANNEL=stack
+	LOG_DEPRECATIONS_CHANNEL=null
+	LOG_LEVEL=debug
+	
+	DB_CONNECTION=mysql
+	DB_HOST=10.92.4.2
+	DB_PORT=3306
+	DB_DATABASE=dbkelompokc05
+	DB_USERNAME=kelompokc05
+	DB_PASSWORD=passwordc05
+	
+	BROADCAST_DRIVER=log
+	CACHE_DRIVER=file
+	FILESYSTEM_DISK=local
+	QUEUE_CONNECTION=sync
+	SESSION_DRIVER=file
+	SESSION_LIFETIME=120
+	
+	MEMCACHED_HOST=127.0.0.1
+	
+	REDIS_HOST=127.0.0.1
+	REDIS_PASSWORD=null
+	REDIS_PORT=6379
+	
+	MAIL_MAILER=smtp
+	MAIL_HOST=mailpit
+	MAIL_PORT=1025
+	MAIL_USERNAME=null
+	MAIL_PASSWORD=null
+	MAIL_ENCRYPTION=null
+	MAIL_FROM_ADDRESS="hello@example.com"
+	MAIL_FROM_NAME="${APP_NAME}"
+	
+	AWS_ACCESS_KEY_ID=
+	AWS_SECRET_ACCESS_KEY=
+	AWS_DEFAULT_REGION=us-east-1
+	AWS_BUCKET=
+	AWS_USE_PATH_STYLE_ENDPOINT=false
+	
+	PUSHER_APP_ID=
+	PUSHER_APP_KEY=
+	PUSHER_APP_SECRET=
+	PUSHER_HOST=
+	PUSHER_PORT=443
+	PUSHER_SCHEME=https
+	PUSHER_APP_CLUSTER=mt1
+	
+	VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+	VITE_PUSHER_HOST="${PUSHER_HOST}"
+	VITE_PUSHER_PORT="${PUSHER_PORT}"
+	VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+	VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+	' > /var/www/laravel-jarkom-modul-3/.env
+	# Generate application key and cache config
+	
+	cd /var/www/laravel-jarkom-modul-3 && php artisan key:generate
+	
+	cd /var/www/laravel-jarkom-modul-3 && php artisan migrate
+	
+	# Generate JWT secret (if using JWT authentication)
+	cd /var/www/laravel-jarkom-modul-3 && php artisan jwt:secret
+	
+	
+	
+	echo 'server {
+	    listen [PORT WORKER]; #ganti 1-1
+	
+	    root /var/www/laravel-jarkom-modul-3/public;
+	
+	    index index.php index.html index.htm;
+	    server_name _;
+	
+	    location / {
+	        try_files $uri $uri/ /index.php?$query_string;
+	    }
+	
+	    # pass PHP scripts to FastCGI server
+	    location ~ \.php$ {
+	        include snippets/fastcgi-php.conf;
+	        fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+	    }
+	
+	    location ~ /\.ht {
+	        deny all;
+	    }
+	
+	    error_log /var/log/nginx/laravel_worker_error.log;
+	    access_log /var/log/nginx/laravel_worker_access.log;
+	}' > /etc/nginx/sites-available/laravel-jarkom-modul-3
+	
+	
+	ln -s /etc/nginx/sites-available/laravel-jarkom-modul-3 /etc/nginx/sites-enabled/
+	
+	# Set the correct file ownership for storage
+	chown -R www-data.www-data /var/www/laravel-jarkom-modul-3/storage
+	
+	service php8.0-fpm start
+	
+	service nginx restart
+  ```
+
 
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi ini mengatur lingkungan Laravel pada server Ubuntu. Pertama, sistem diperbarui dan software-properties-common diinstal untuk menambah repository PHP, kemudian instalasi PHP 8.0 beserta ekstensi yang diperlukan dilakukan. NGINX sebagai web server dan Lynx sebagai browser berbasis teks juga diinstal. Composer diunduh dan diatur sebagai alat manajemen dependensi untuk Laravel, sementara Git diinstal untuk meng-clone project dari GitHub.
+
+Di dalam direktori Laravel yang baru di-clone, dependensi diperbarui dengan composer update, lalu file .env disalin dan dikonfigurasi untuk koneksi database dan email. Laravel kemudian diatur dengan php artisan key:generate untuk membuat kunci aplikasi, dan php artisan migrate untuk menginisialisasi database. Jika menggunakan JWT, php artisan jwt:secret menghasilkan secret JWT.
+
+Selanjutnya, konfigurasi NGINX diatur untuk melayani aplikasi Laravel di port yang sesuai, dengan pengaturan untuk log error dan akses, serta PHP FastCGI untuk menangani permintaan PHP. Simbolik link dibuat untuk mengaktifkan konfigurasi NGINX. Terakhir, hak akses pada folder storage disesuaikan dan layanan php8.0-fpm serta NGINX di-restart agar konfigurasi berjalan sempurna.
 
 <br>
 
