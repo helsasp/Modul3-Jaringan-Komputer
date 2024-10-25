@@ -1357,6 +1357,8 @@ Selanjutnya, konfigurasi NGINX diatur untuk melayani aplikasi Laravel di port ya
 	apt-get install lynx -y
 
 	cd ~
+  	ab -n 100 -c 10 http://10.92.6.4:8001/auth/register
+  
 	echo '{"username":"testuser","password":"testpass"}' > register.json
 	
 	ab -n 100 -c 10 -p register.json -T application/json http://10.92.6.4:8001/api/auth/register
