@@ -1533,5 +1533,6 @@ sebanyak tiga percobaan dan lakukan analisis testing menggunakan apache benchmar
 <br>
   
 ## Problems
-
+Kesusahan mengerjakan no 18-20
 ## Revisions (if any)
+Nomor 18-20
