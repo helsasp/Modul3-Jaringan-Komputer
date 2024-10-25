@@ -1152,15 +1152,34 @@ Konfigurasi ini bertujuan untuk mengatur akses database yang dikelola oleh serve
 
 - Screenshot
 
-  `Put your screenshot in here`
+  ![Screenshot 2024-10-25 152336](https://github.com/user-attachments/assets/5a2172c1-03a1-4744-9469-c18b758ac7d8)
+
+
+  ![Screenshot 2024-10-25 152348](https://github.com/user-attachments/assets/63d33f07-dd71-4f33-baa9-27836c1400a1)
+
+  
+
 
 - Configuration
 
-  `Put your configuration in here`
+  Susaan Bones
+  ```
+	apt-get update
+	apt-get install apache2-utils -y
+	apt-get install nginx -y
+	apt-get install lynx -y
+
+	cd ~
+	echo '{"username":"testuser","password":"testpass"}' > register.json
+	
+	ab -n 100 -c 10 -p register.json -T application/json http://10.92.6.4:8001/api/auth/register
+  ```
+  
+
 
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi ini menginstal Apache Utilities (untuk alat ab), NGINX sebagai server web, dan Lynx untuk akses web berbasis teks. Kemudian, dibuat file register.json berisi data username dan password sebagai payload JSON untuk pengujian API. Dengan menggunakan ab, endpoint /api/auth/register diuji dengan 100 permintaan (10 permintaan bersamaan) untuk mengevaluasi performa server dalam menangani beban tersebut.
 
 <br>
 
@@ -1174,11 +1193,31 @@ Konfigurasi ini bertujuan untuk mengatur akses database yang dikelola oleh serve
 
 - Screenshot
 
-  `Put your screenshot in here`
+  ![Screenshot 2024-10-25 153552](https://github.com/user-attachments/assets/44510b32-decf-42ab-8980-f38466a8dd99)
+
+  ![Screenshot 2024-10-25 153559](https://github.com/user-attachments/assets/a7a73dd4-e94b-4e47-87c7-1e13edbad683)
+
+  ![Screenshot 2024-10-25 154440](https://github.com/user-attachments/assets/c60cdef0-4510-455e-836a-070bf04723f9)
+
 
 - Configuration
 
-  `Put your configuration in here`
+  SusanBones
+
+  ```
+	apt-get update
+	apt-get install apache2-utils -y
+	apt-get install nginx -y
+	apt-get install lynx -y
+	
+	ab -n 100 -c 10 -p register.json -T application/json http://10.92.6.4:8001/api/auth/login
+  ```
+Token
+	
+`curl -X POST -H "Content-Type: application/json" -d @register.json http://10.92.6.4:8001/api/auth/login`
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTAuOTIuNi40OjgwMDEvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Mjk4NDU4NzUsImV4cCI6MTcyOTg0OTQ3NSwibmJmIjoxNzI5ODQ1ODc1LCJqdGkiOiJCOTRGN1ZFWmJ6cWoydE9jIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.lYvK04ED2aSvM3isjD87zII2yxr0v4gKItDXXd4iN5w
+
 
 - Explanation
 
