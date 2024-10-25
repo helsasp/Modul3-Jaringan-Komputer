@@ -1438,15 +1438,16 @@ Konfigurasi ini dimulai dengan memperbarui daftar paket, lalu menginstal apache2
 
 - Screenshot
 
-  `Put your screenshot in here`
+  ![image](https://github.com/user-attachments/assets/729c723f-8b53-45cc-b0a6-3db9fde7be41)
+
 
 - Configuration
 
-  `Put your configuration in here`
+  `ab -n 100 -c 10 -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTAuOTIuNi40OjgwMDEvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3Mjk4NjQzMTQsImV4cCI6MTcyOTg2NzkxNCwibmJmIjoxNzI5ODY0MzE0LCJqdGkiOiIxRUdsTFlPMTJPVmhaMzFJIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.iB_mFltIS9SwR5xwlyEJ9HDPO6YSJcwvpZp3FMTzMjE" -H "Content-Type: application/json" http://10.92.6.4:8001/auth/me`
 
 - Explanation
 
-  `Put your explanation in here`
+Perintah Apache Benchmark (ab) ini digunakan untuk menguji kinerja endpoint API pada URL http://10.92.6.4:8001/auth/me dengan total 100 permintaan (-n 100) dan 10 permintaan konkuren (-c 10). Header "Authorization" berisi token Bearer yang diikutsertakan untuk otentikasi API, sementara header "Content-Type" diatur ke application/json untuk menunjukkan bahwa permintaan mengirim atau menerima data dalam format JSON.
 
 <br>
 
