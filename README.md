@@ -323,7 +323,7 @@ host -t A ravenclaw.hogwarts.c05.com
 
 ```
 
-- Explanation
+- Explanation <br>
 Konfigurasi ini bertujuan untuk mendaftarkan subdomain untuk dua pekerja: gryffindor.hogwarts.yyy.com yang mengarah ke alamat IP load balancer Voldemort (10.92.4.2) dan ravenclaw.hogwarts.yyy.com yang mengarah ke alamat IP load balancer Dementor (10.92.4.3). Seluruh pengaturan domain dikelompokkan dalam folder bernama "hogwarts" di server DNS BIND. Dalam konfigurasi ini, setiap subdomain memiliki file data DNS yang mendefinisikan informasi seperti tipe zone, alamat IP, dan informasi terkait lainnya, serta pengaturan untuk server DNS yang memastikan permintaan dapat diproses dengan benar. Pengaturan ini memastikan bahwa trafik ke subdomain akan diarahkan ke load balancer yang sesuai, memungkinkan akses ke pekerja PHP dan Laravel yang ditunjuk.
 
 <br>
@@ -351,11 +351,51 @@ Konfigurasi ini bertujuan untuk mendaftarkan subdomain untuk dua pekerja: gryffi
 
 - Configuration
 
-  `Put your configuration in here`
+SeverusSnape DHCP Server
 
-- Explanation
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install isc-dhcp-server
+dhcpd --version
 
-  `Put your explanation in here`
+nano /etc/default/isc-dhcp-server
+INTERFACESv4=”eth0”
+nano /etc/dhcp/dhcpd.conf
+
+
+subnet 10.92.5.0 netmask 255.255.255.0 {
+range 10.92.5.50 10.92.5.51;
+range 10.92.5.155 10.92.5.156;
+ option broadcast-address 10.92.5.255;
+    option domain-name-servers 10.92.3.3;
+option routers 10.92.5.1;
+}
+
+subnet 10.92.4.0 netmask 255.255.255.0 {
+}
+
+subnet 10.92.3.0 netmask 255.255.255.0 {
+}
+
+
+subnet 10.92.2.0 netmask 255.255.255.0 {
+range 10.92.2.64 10.92.2.65;
+range 10.92.2.100 10.92.2.101;
+option broadcast-address 10.92.2.255;
+option domain-name-servers 10.92.3.3;
+option routers 10.92.2.1;
+}
+
+
+service isc-dhcp-server restart
+service isc-dhcp-server status
+
+```
+
+- Explanation <br>
+
+Konfigurasi di atas merupakan pengaturan untuk server DHCP yang mengalokasikan rentang alamat IP khusus untuk pengguna tertentu di jaringan. Draco Malfoy dan Astoria Greengrass diberikan rentang IP dari 10.92.2.64 hingga 10.92.2.65 dan 10.92.2.100 hingga 10.92.2.101, yang didefinisikan dalam subnet 10.92.2.0 dengan netmask 255.255.255.0. Sementara itu, Hannah Abbott dan Susan Bones dialokasikan rentang IP dari 10.92.5.50 hingga 10.92.5.51 dan 10.92.5.155 hingga 10.92.5.156 dalam subnet 10.92.5.0. Selain itu, pengaturan tersebut mencakup informasi lain seperti alamat broadcast, server DNS, dan router default untuk setiap subnet. Setelah konfigurasi selesai, server DHCP di-restart untuk menerapkan perubahan. Ini memastikan bahwa perangkat dalam jaringan dapat memperoleh alamat IP sesuai dengan ketentuan yang telah ditetapkan.
 
 <br>
 
@@ -380,13 +420,34 @@ Konfigurasi ini bertujuan untuk mendaftarkan subdomain untuk dua pekerja: gryffi
 
 
 - Configuration
+```
+nano /etc/dhcp/dhcpd.conf
+  
+subnet 10.92.6.0 netmask 255.255.255.0 {
+	range 10.92.6.10 10.92.6.15;
+	range 10.92.6.20 10.92.6.25;
+	option broadcast-address 10.92.6.255;
+	option domain-name-servers 10.92.3.3;
+	option routers 10.92.6.1;
 
-  `Put your configuration in here`
+}
+
+subnet 10.92.1.0 netmask 255.255.255.0 {
+	range 10.92.1.10 10.92.1.15;
+	range 10.92.1.20 10.92.1.25;
+	option broadcast-address 10.92.1.255;
+	option domain-name-servers 10.92.3.3;
+	option routers 10.92.1.1;
+
+}
+
+service isc-dhcp-server restart
+service isc-dhcp-server status
+```
 
 - Explanation
 
-  `Put your explanation in here`
-
+Konfigurasi DHCP yang diberikan mengatur dua subnet berbeda untuk mengalokasikan rentang alamat IP kepada dua pengguna yang terhubung ke switch yang berbeda. Untuk HermioneGranger yang terhubung ke switch 1, subnet 10.92.1.0 dengan netmask 255.255.255.0 mengalokasikan IP dari 10.92.1.10 hingga 10.92.1.15 dan 10.92.1.20 hingga 10.92.1.25. Sedangkan untuk ChoChang yang terhubung ke switch 6, subnet 10.92.6.0 juga dengan netmask yang sama, mengalokasikan IP dari 10.92.6.10 hingga 10.92.6.15 dan 10.92.6.20 hingga 10.92.6.25. Setiap subnet juga memiliki opsi broadcast address, DNS server, dan router yang ditentukan, serta waktu sewa default dan maksimal untuk alamat IP yang diberikan. Setelah konfigurasi, layanan DHCP di-restart untuk menerapkan perubahan.
 <br>
 
 ## Soal 4
@@ -402,12 +463,61 @@ Konfigurasi ini bertujuan untuk mendaftarkan subdomain untuk dua pekerja: gryffi
   `Put your screenshot in here`
 
 - Configuration
+```
+nano /etc/dhcp/dhcpd.conf
 
-  `Put your configuration in here`
+	subnet 10.92.6.0 netmask 255.255.255.0 {
+	range 10.92.6.10 10.92.6.15;
+	range 10.92.6.20 10.92.6.25;
+	option broadcast-address 10.92.6.255;
+	option domain-name-servers 10.92.3.3;
+	option routers 10.92.6.1;
+	default-lease-time 600;
+	max-lease-time 6000;
+}
 
-- Explanation
+subnet 10.92.5.0 netmask 255.255.255.0 {
+	range 10.92.5.50 10.92.5.51;
+	range 10.92.5.155 10.92.5.156;
+	option broadcast-address 10.92.5.255;
+	option domain-name-servers 10.92.3.3;
+	option routers 10.92.5.1;
+	default-lease-time 1200;
+	max-lease-time 6000;
+}
 
-  `Put your explanation in here`
+subnet 10.92.4.0 netmask 255.255.255.0 {
+}
+
+subnet 10.92.3.0 netmask 255.255.255.0 {
+}
+
+subnet 10.92.2.0 netmask 255.255.255.0 {
+	range 10.92.2.64 10.92.2.65;
+	range 10.92.2.100 10.92.2.101;
+	option broadcast-address 10.92.2.255;
+	option domain-name-servers 10.92.3.3;
+	option routers 10.92.2.1;
+	default-lease-time 300;
+	max-lease-time 6000;
+}
+
+subnet 10.92.1.0 netmask 255.255.255.0 {
+	range 10.92.1.10 10.92.1.15;
+	range 10.92.1.20 10.92.1.25;
+	option broadcast-address 10.92.1.255;
+	option domain-name-servers 10.92.3.3;
+	option routers 10.92.1.1;
+	default-lease-time 600;
+	max-lease-time 6000;
+}
+
+service isc-dhcp-server restart
+```
+
+- Explanation <br>
+
+Konfigurasi DHCP server di atas menetapkan waktu peminjaman alamat IP (lease time) untuk klien berdasarkan switch yang digunakan. Untuk klien yang terhubung melalui switch 2, waktu peminjaman ditetapkan selama 5 menit (300 detik), sedangkan klien melalui switch 5 mendapatkan waktu 20 menit (1200 detik). Untuk switch 1 dan switch 6, waktu peminjaman ditetapkan pada 10 menit (600 detik). Konfigurasi juga menentukan bahwa waktu maksimum untuk peminjaman alamat IP adalah 100 menit (6000 detik). Setiap subnet juga memiliki pengaturan alamat IP yang bisa dipinjam (range), alamat broadcast, server DNS, dan router default yang sesuai dengan subnet masing-masing. Setelah konfigurasi selesai, layanan DHCP server perlu direstart untuk menerapkan perubahan.
 
 <br>
 
@@ -429,11 +539,46 @@ Konfigurasi ini bertujuan untuk mendaftarkan subdomain untuk dua pekerja: gryffi
 
 - Configuration
 
-  `Put your configuration in here`
+Relay DumbleDore
+```
+apt-get update
+apt-get install isc-dhcp-relay -y
+service isc-dhcp-relay start
+
+nano /etc/default/isc-dhcp-relay
+SERVERS="10.92.3.2"  
+INTERFACES="eth1 eth2 eth3 eth4 eth5 eth6"
+OPTIONS=
+
+nano /etc/sysctl.conf
+
+net.ipv4.ip_forward=1
+
+service isc-dhcp-relay restart
+```
+
+SeverusSnape
+```
+
+nano /etc/dhcp/dhcpd.conf
+
+	host ChoChang{
+	hardware ethernet 82:d8:23:0d:93:21;
+	fixed-address 10.92.6.14;
+}
+
+host HermioneGranger {
+	hardware ethernet 9a:dc:25:98:53:2f;
+	fixed-address 10.92.1.14;
+}
+
+
+
+```
 
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi di atas memastikan bahwa semua klien, termasuk HermioneGranger dan ChoChang, menggunakan pengaturan dari DHCP server, menerima DNS dari Professor McGonagall, dan memiliki akses ke internet. Untuk HermioneGranger dan ChoChang, alamat IP statis ditetapkan melalui pengaturan fixed-address di DHCP server, masing-masing dengan alamat IP 10.92.1.14 dan 10.92.6.14, berdasarkan alamat MAC mereka. Selain itu, untuk mendukung konfigurasi ini, DHCP relay diatur pada server DumbleDore, yang mengarahkan permintaan DHCP ke server DHCP utama dengan menggunakan isc-dhcp-relay. Konfigurasi ini mencakup pengaturan antarmuka yang relevan dan memastikan pengalihan paket IP diaktifkan dengan net.ipv4.ip_forward=1. Setelah konfigurasi selesai, layanan DHCP relay dan server perlu direstart untuk menerapkan perubahan.
 
 <br>
 
@@ -451,12 +596,62 @@ Konfigurasi ini bertujuan untuk mendaftarkan subdomain untuk dua pekerja: gryffi
 
 
 - Configuration
+HarryPotter
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install nginx -y
+apt-get install wget -y
+apt-get install unzip -y
+apt-get install lynx -y
+apt-get install apache2-utils -y
+apt-get install php7.4-fpm php7.4-common php7.4-mysql php7.4-gmp php7.4-curl php7.4-intl php7.4-mbstring php7.4-xmlrpc php7.4-gd php7.4-xml php7.4-cli php7.4-zip -y
 
-  `Put your configuration in here`
+wget -O '/var/www/gryffindor.hogwarts.c05.com.zip' 'https://drive.google.com/uc?export=download&id=17R4Zcxm3emHq21WdMJzSfCxO8FHqvATM'
+unzip -o /var/www/gryffindor.hogwarts.c05.com.zip -d /var/www/
+
+mv /var/www/php /var/www/gryffindor.hogwarts.c05.com
+
+klo biar sampe login lakuin 2x ke atas
+
+mv /var/www/index.php /var/www/gryffindor.hogwarts.c05.com
+chown -R www-data:www-data /var/www/gryffindor.hogwarts.c05.com
+chmod -R 755 /var/www/gryffindor.hogwarts.c05.com
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/gryffindor.hogwarts.c05.com
+ln -s /etc/nginx/sites-available/gryffindor.hogwarts.c05.com /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default
+
+echo 'server {
+	listen 80;
+	server_name gryffindor.hogwarts.c05.com;
+
+	root /var/www/gryffindor.hogwarts.c05.com;
+	index index.php index.html index.htm;
+
+	location / {
+    	try_files $uri $uri/ /index.php?$query_string;
+	}
+
+	location ~ \.php$ {
+    	include snippets/fastcgi-php.conf;
+    	fastcgi_pass unix:/run/php/php7.4-fpm.sock;  # Sesuaikan versi PHP dan socket
+    	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    	include fastcgi_params;
+	}
+}' > /etc/nginx/sites-available/gryffindor.hogwarts.c05.com
+
+service php7.4-fpm start
+service nginx restart
+
+nano /etc/hosts
+127.0.0.1 gryffindor.hogwarts.c05.com
+
+
+```
 
 - Explanation
 
-  `Put your explanation in here`
+Konfigurasi di atas menjelaskan langkah-langkah untuk mendepploy situs web menggunakan PHP 7.4 pada server Nginx untuk asrama Gryffindor. Pertama, nama server DNS diatur ke 192.168.122.1, dan kemudian beberapa paket penting diinstal, termasuk Nginx dan PHP 7.4 dengan modul-modul yang diperlukan. Setelah itu, file situs web diunduh dan diekstrak ke direktori /var/www/, di mana struktur direktori diubah untuk mencerminkan nama domain Gryffindor. File index.php dipindahkan ke lokasi yang tepat, dan hak akses ditetapkan untuk memastikan bahwa server web dapat mengakses file-file tersebut. Konfigurasi server Nginx ditambahkan untuk menangani permintaan HTTP, termasuk pengaturan untuk memproses file PHP melalui FastCGI menggunakan PHP-FPM. Nginx kemudian direstart dan layanan PHP-FPM juga diaktifkan. Akhirnya, entri untuk domain ditambahkan ke file hosts untuk memastikan bahwa server dapat diakses melalui gryffindor.hogwarts.c05.com.
 
 <br>
 
