@@ -14,7 +14,7 @@
 > Template testing report: https://docs.google.com/document/d/17T0fsnh_4zZTrG-lELDJ88intrc9mkwCzZ_s-23JLCc/edit?usp=sharing
 
 ## Put your testing report here! 
-> The report is sent in PDF format, uploaded to Drive, and set to public view.
+https://drive.google.com/file/d/1Q0qkxcWcZChSXfbGiPIWkZrpFM89Q-5M/view?usp=sharing 
 
 Konfigurasi ini dimulai dengan memperbarui daftar paket, lalu menginstal apache2-utils (untuk alat benchmarking ab), NGINX sebagai server web, dan Lynx sebagai browser berbasis teks. Setelah itu, perintah ab digunakan untuk mengirimkan 100 permintaan POST bersamaan (10 permintaan sekaligus) ke endpoint /api/auth/login dengan payload dari file register.json untuk menguji performa server. Selanjutnya, curl digunakan untuk mengirim permintaan POST ke endpoint yang sama untuk mendapatkan token otentikasi JWT. Token ini diperlukan untuk akses lanjutan dan ditampilkan sebagai hasil dari permintaan login.
 
