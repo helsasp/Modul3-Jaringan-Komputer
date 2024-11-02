@@ -14,7 +14,7 @@
 > Template testing report: https://docs.google.com/document/d/17T0fsnh_4zZTrG-lELDJ88intrc9mkwCzZ_s-23JLCc/edit?usp=sharing
 
 ## Put your testing report here! 
-https://drive.google.com/file/d/1Q0qkxcWcZChSXfbGiPIWkZrpFM89Q-5M/view?usp=sharing 
+https://drive.google.com/file/d/1CHfOZMxam9qupD34dneO4TcH-XEJlZIG/view?usp=sharing
 
 Konfigurasi ini dimulai dengan memperbarui daftar paket, lalu menginstal apache2-utils (untuk alat benchmarking ab), NGINX sebagai server web, dan Lynx sebagai browser berbasis teks. Setelah itu, perintah ab digunakan untuk mengirimkan 100 permintaan POST bersamaan (10 permintaan sekaligus) ke endpoint /api/auth/login dengan payload dari file register.json untuk menguji performa server. Selanjutnya, curl digunakan untuk mengirim permintaan POST ke endpoint yang sama untuk mendapatkan token otentikasi JWT. Token ini diperlukan untuk akses lanjutan dan ditampilkan sebagai hasil dari permintaan login.
 
@@ -1475,11 +1475,40 @@ Perintah Apache Benchmark (ab) ini digunakan untuk menguji kinerja endpoint API 
 
 - Configuration
 
-  `Put your configuration in here`
+Konfigurasi Upstream untuk Laravel Workers. Tambahkan blok upstream di konfigurasi NGINX pada Dementor:
+
+`/etc/nginx/sites-available/laravel-worker`
+
+```
+upstream worker {
+  server 10.92.6.2:8001;
+  server 10.92.6.3:8002;
+  server 10.92.6.14:8003;
+}
+
+server {
+	listen 80;
+	server_name ravenclaw.hogwarts.c05.com www.ravenclaw.hogwarts.c05.com;
+
+	location / {
+    	proxy_pass http://worker;
+    	proxy_set_header	X-Real-IP $remote_addr;
+    	proxy_set_header	X-Forwarded-For $proxy_add_x_forwarded_for;
+    	proxy_set_header	Host $http_host;
+
+	}
+}
+```
+
+`ln -s /etc/nginx/sites-available/laravel-worker /etc/nginx/sites-enabled/laravel-worker`
+
+`service nginx restart`
+
+
 
 - Explanation
 
-  `Put your explanation in here`
+Kode di atas merupakan konfigurasi NGINX untuk mengatur load balancing pada Laravel Workers. Blok upstream worker mendefinisikan tiga server yang akan digunakan untuk menangani permintaan, masing-masing dengan alamat IP dan port tertentu (10.92.6.2:8001, 10.92.6.3:8002, dan 10.92.6.14:8003). Konfigurasi server di bawahnya mendengarkan permintaan pada port 80 dengan nama domain yang ditentukan. Ketika ada permintaan yang masuk, NGINX akan meneruskan (proxy_pass) permintaan tersebut ke salah satu server di dalam blok upstream worker. Selain itu, beberapa header juga disetel untuk menjaga informasi tentang alamat IP asli pengunjung dan host yang diminta, memungkinkan aplikasi Laravel untuk mendapatkan informasi ini dengan akurat.
 
 <br>
 
@@ -1498,15 +1527,108 @@ sebanyak tiga percobaan dan lakukan analisis testing menggunakan apache benchmar
 
 - Screenshot
 
-  `Put your screenshot in here`
+  Percobaan-1
+
+  ![image](https://github.com/user-attachments/assets/30fcae7f-6436-4eec-8a9c-9e26361128cf)
+
+  Percobaan-2
+
+  ![image](https://github.com/user-attachments/assets/6c39eba0-acdb-435c-87d8-0383020281cc)
+
+  Percobaan-3
+
+  ![image](https://github.com/user-attachments/assets/206642bc-408c-44aa-8e1f-85cb846578cd)
+
 
 - Configuration
 
-  `Put your configuration in here`
+`Script-1`
+
+```
+# Setup Awal
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 2
+pm.max_spare_servers = 3' > /etc/php/8.0/fpm/pool.d/www.conf
+```
+
+`service php8.0-fpm restart`
+
+
+`- Script 2`
+
+
+```
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 15
+pm.start_servers = 4
+pm.min_spare_servers = 3
+pm.max_spare_servers = 10' > /etc/php/8.0/fpm/pool.d/www.conf
+```
+
+`service php8.0-fpm restart`
+
+- Script 3
+
+
+```
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 30
+pm.start_servers = 7
+pm.min_spare_servers = 5
+pm.max_spare_servers = 15' > /etc/php/8.0/fpm/pool.d/www.conf
+```
+
+`service php8.0-fpm restart`
+
 
 - Explanation
 
-  `Put your explanation in here`
+Script 1:
+- Script ini mengonfigurasi PHP-FPM dengan maksimum 5 proses anak (pm.max_children) dan memulai dengan 2 proses server (pm.start_servers). Konfigurasi ini cocok untuk beban kerja yang lebih ringan, di mana hanya sedikit permintaan yang perlu dilayani.
+- Selain itu, fungsi tertentu dinonaktifkan (disable_functions), dan pengaturan untuk allow_url_fopen diatur menjadi off untuk meningkatkan keamanan. Setelah pengaturan selesai, layanan PHP-FPM direstart untuk menerapkan perubahan.
+  
+Script 2:
+- Dalam script ini, batas maksimum jumlah proses anak ditingkatkan menjadi 15 dengan 4 proses server yang dimulai. Pengaturan ini dirancang untuk menangani lebih banyak permintaan secara bersamaan, cocok untuk skenario dengan beban kerja sedang.
+- Seperti script sebelumnya, pengaturan keamanan yang sama diterapkan. Setelah perubahan dilakukan, layanan PHP-FPM juga direstart.
+  
+Script 3:
+- Script terakhir ini mengonfigurasi PHP-FPM dengan batas maksimum 30 proses anak dan 7 proses server yang dimulai. Konfigurasi ini ditujukan untuk menangani beban kerja yang tinggi, di mana lebih banyak permintaan harus dilayani sekaligus.
+- Sekali lagi, pengaturan keamanan yang sama diterapkan, dan setelah konfigurasi, layanan PHP-FPM direstart untuk menerapkan pengaturan baru.
 
 <br>
 
@@ -1520,15 +1642,43 @@ sebanyak tiga percobaan dan lakukan analisis testing menggunakan apache benchmar
 
 - Screenshot
 
-  `Put your screenshot in here`
+  Testing kinerja menggunakan apache benchmark sebanyak 100 request dengan 10 request/second.
+  
+  ![image](https://github.com/user-attachments/assets/d08587ff-d4c5-44aa-aebf-ba67a0029f3b)
+
 
 - Configuration
 
-  `Put your configuration in here`
+
+Pada node Dementor, tambahkan metode load_balancing `least_conn`.
+
+`nano /etc/nginx/sites-available/laravel-worker`
+
+```
+upstream worker {
+least_conn;
+  server 10.92.6.2:8001;
+  server 10.92.6.3:8002;
+  server 10.92.6.14:8003;
+}
+
+server {
+	listen 80;
+	server_name ravenclaw.hogwarts.c05.com www.ravenclaw.hogwarts.c05.com;
+
+	location / {
+    	proxy_pass http://worker;
+    	proxy_set_header	X-Real-IP $remote_addr;
+    	proxy_set_header	X-Forwarded-For $proxy_add_x_forwarded_for;
+    	proxy_set_header	Host $http_host;
+
+	}
+}
+```
 
 - Explanation
 
-  `Put your explanation in here`
+Kode di atas adalah konfigurasi NGINX pada node Dementor yang menggunakan metode penyeimbangan beban `least_conn`. Dalam blok `upstream worker`, metode ini memastikan bahwa permintaan baru diarahkan ke server dengan jumlah koneksi aktif paling sedikit, dengan tiga server terdaftar (10.92.6.2:8001, 10.92.6.3:8002, dan 10.92.6.14:8003). Blok `server` mendengarkan pada port 80 untuk nama domain `ravenclaw.hogwarts.c05.com`. Saat permintaan diterima, permintaan akan diteruskan ke grup server yang ditentukan, dan header tambahan diatur untuk menjaga informasi seperti alamat IP asli pengunjung dan nama host. Konfigurasi ini membantu mengoptimalkan pemanfaatan sumber daya server di aplikasi Laravel.
 
 <br>
   
